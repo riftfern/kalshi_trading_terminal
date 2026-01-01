@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Environment and secrets
+.env
+*.env
+keys/
+*.pem
+
+# OS files
+.DS_Store
+
+# Logs
+*.log
+
+# Build output
+dist/
+
+# IDE
+.vscode/
+.idea/
+
+# Claude
+.claude/
