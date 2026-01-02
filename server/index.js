@@ -6,8 +6,10 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
+import { createServer } from 'http';
 import { KalshiClient } from './api/KalshiClient.js';
 import { startTelegramBot } from './telegram.js';
+import { setupWebSocket } from './websocket.js';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -166,10 +168,17 @@ app.get('/api/portfolio/positions', async (req, res) => {
   }
 });
 
+// Create HTTP server (needed for WebSocket)
+const server = createServer(app);
+
 // Start server
 initClient().then(async () => {
-  app.listen(PORT, () => {
-    console.log(`Kalshi Terminal server running on http://localhost:${PORT}`);
+  // Setup WebSocket for real-time updates
+  setupWebSocket(server, client);
+
+  server.listen(PORT, () => {
+    console.log(`Godel Terminal server running on http://localhost:${PORT}`);
+    console.log(`WebSocket available at ws://localhost:${PORT}/ws`);
   });
 
   // Start Telegram bot if token is configured
