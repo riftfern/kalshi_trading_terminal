@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kalshi Trading Terminal - Vanilla</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'JetBrains Mono', monospace;
+        background: #0a0a0a;
+        color: #e0e0e0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .info {
+        text-align: center;
+        padding: 20px;
+      }
+
+      .info h1 {
+        color: #00d4ff;
+        margin-bottom: 12px;
+      }
+
+      .info p {
+        color: #888;
+        margin: 8px 0;
+      }
+
+      .key-hint {
+        display: inline-block;
+        background: #1a1a1a;
+        border: 1px solid #333;
+        padding: 4px 12px;
+        border-radius: 4px;
+        color: #00d4ff;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="info">
+      <h1>Kalshi Trading Terminal</h1>
+      <p>Vanilla TypeScript Command Palette Demo</p>
+      <p style="margin-top: 24px;">
+        Press <span class="key-hint">`</span> (backtick) to open the command palette
+      </p>
+      <p style="margin-top: 12px; font-size: 12px;">
+        Open the browser console to see ticker outputs
+      </p>
+    </div>
+
+    <script type="module" src="/src/vanilla-main.ts"></script>
+  </body>
+</html>
