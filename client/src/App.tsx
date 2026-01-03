@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Header } from '@/components/Header'
-import { GridLayout } from '@/layout/GridLayout'
-import { CommandPalette } from '@/command-palette/CommandPalette'
+// Note: Legacy React imports - vanilla.html is the primary entry point
+// import { Header } from '@/components/Header'
+// import { GridLayout } from '@/layout/GridLayout'
+// import { CommandPalette } from '@/command-palette/CommandPalette'
 import { useMarketDataStore } from '@/store/marketDataStore'
 
 function App() {
@@ -69,12 +70,19 @@ function App() {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-slate-900 text-slate-300 font-mono overflow-hidden">
-      <Header />
-      <main className="flex-1 overflow-hidden">
-        <GridLayout />
-      </main>
-      <CommandPalette />
+    <div className="h-screen flex items-center justify-center bg-slate-900 text-slate-300 font-mono">
+      <div className="text-center max-w-md p-8">
+        <h1 className="text-2xl mb-4 text-cyan-400">Kalshi Trading Terminal</h1>
+        <p className="text-sm text-slate-400 mb-6">
+          This React version is deprecated. Please use the vanilla TypeScript version instead.
+        </p>
+        <a
+          href="/vanilla.html"
+          className="inline-block px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded transition-colors"
+        >
+          Open Vanilla Terminal →
+        </a>
+      </div>
     </div>
   )
 }

@@ -34,124 +34,29 @@ export class GridLayout extends BaseComponent<HTMLDivElement> {
     // Clear existing content
     this.element.innerHTML = '';
 
-    if (this.widgets.length === 0) {
-      // Show empty state
-      const emptyState = this.createEmptyState();
-      this.element.appendChild(emptyState);
-    } else {
-      // Create grid container
-      this.gridContainer = document.createElement('div');
-      this.gridContainer.className = [
-        'grid gap-3',
-        'grid-cols-1',
-        'md:grid-cols-2',
-        'lg:grid-cols-3',
-        'xl:grid-cols-4',
-        'auto-rows-fr',
-      ].join(' ');
+    // Create grid container
+    this.gridContainer = document.createElement('div');
+    this.gridContainer.className = [
+      'grid gap-3',
+      'grid-cols-1',
+      'md:grid-cols-2',
+      'lg:grid-cols-3',
+      'xl:grid-cols-4',
+      'auto-rows-fr',
+    ].join(' ');
 
-      // Render widgets using factory
-      this.widgets.forEach((widget) => {
-        const widgetComponent = this.getOrCreateWidgetComponent(widget);
-        const widgetContainer = document.createElement('div');
-        widgetContainer.className = 'min-h-[300px]';
-        widgetContainer.id = `widget-${widget.id}`;
+    // Render widgets using factory
+    this.widgets.forEach((widget) => {
+      const widgetComponent = this.getOrCreateWidgetComponent(widget);
+      const widgetContainer = document.createElement('div');
+      widgetContainer.className = 'min-h-[300px]';
+      widgetContainer.id = `widget-${widget.id}`;
 
-        widgetComponent.mount(widgetContainer);
-        this.gridContainer!.appendChild(widgetContainer);
-      });
-
-      this.element.appendChild(this.gridContainer);
-    }
-  }
-
-  private createEmptyState(): HTMLDivElement {
-    const container = document.createElement('div');
-    container.className = 'flex items-center justify-center h-full text-slate-500';
-
-    const content = document.createElement('div');
-    content.className = 'text-center max-w-md';
-
-    const title = document.createElement('h2');
-    title.className = 'text-lg text-slate-300 mb-2';
-    title.innerHTML = `Welcome to <span class="line-through text-slate-500">Godel</span> Kalshi Trading Terminal`;
-    content.appendChild(title);
-
-    const subtitle = document.createElement('p');
-    subtitle.className = 'text-sm mb-6';
-    subtitle.textContent = 'Get started by adding widgets to your workspace';
-    content.appendChild(subtitle);
-
-    // Command palette hint
-    const hint = document.createElement('div');
-    hint.className = 'flex items-center justify-center gap-2 text-sm';
-
-    const hintText = document.createElement('span');
-    hintText.textContent = 'Press';
-    hint.appendChild(hintText);
-
-    const kbd = document.createElement('kbd');
-    kbd.className = 'px-2 py-1 bg-slate-800 border border-slate-600 rounded font-mono text-cyan-400';
-    kbd.textContent = '`';
-    hint.appendChild(kbd);
-
-    const orText = document.createElement('span');
-    orText.textContent = 'or';
-    hint.appendChild(orText);
-
-    const kbdCtrl = document.createElement('kbd');
-    kbdCtrl.className = 'px-2 py-1 bg-slate-800 border border-slate-600 rounded font-mono text-cyan-400';
-    kbdCtrl.textContent = 'Ctrl+K';
-    hint.appendChild(kbdCtrl);
-
-    const toOpenText = document.createElement('span');
-    toOpenText.textContent = 'to open command palette';
-    hint.appendChild(toOpenText);
-
-    content.appendChild(hint);
-
-    // Quick start buttons
-    const buttonsContainer = document.createElement('div');
-    buttonsContainer.className = 'mt-8 flex flex-col gap-2';
-
-    const presets = [
-      { label: 'Trading Layout', description: 'Orderbook + Chart + Quote' },
-      { label: 'Research Layout', description: 'Market Selector + Charts' },
-      { label: 'Minimal Layout', description: 'Single Orderbook' },
-    ];
-
-    presets.forEach((preset) => {
-      const button = document.createElement('button');
-      button.className = [
-        'px-4 py-2 rounded',
-        'bg-slate-800 hover:bg-slate-700',
-        'border border-slate-600',
-        'text-left transition-colors',
-      ].join(' ');
-
-      const labelEl = document.createElement('div');
-      labelEl.className = 'text-sm text-slate-200';
-      labelEl.textContent = preset.label;
-      button.appendChild(labelEl);
-
-      const descEl = document.createElement('div');
-      descEl.className = 'text-xs text-slate-500';
-      descEl.textContent = preset.description;
-      button.appendChild(descEl);
-
-      // TODO: Wire up preset loading
-      button.addEventListener('click', () => {
-        console.log(`Load preset: ${preset.label}`);
-        // workspaceStore.loadPreset(preset.label.toLowerCase())
-      });
-
-      buttonsContainer.appendChild(button);
+      widgetComponent.mount(widgetContainer);
+      this.gridContainer!.appendChild(widgetContainer);
     });
 
-    content.appendChild(buttonsContainer);
-    container.appendChild(content);
-
-    return container;
+    this.element.appendChild(this.gridContainer);
   }
 
   private getOrCreateWidgetComponent(widget: WidgetInstance): BaseWidget {

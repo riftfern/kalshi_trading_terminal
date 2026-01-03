@@ -22,14 +22,51 @@ export interface WorkspaceState {
   activeWidgetId: string | null;
 }
 
-// Initial state
-const initialState: WorkspaceState = {
-  widgets: [],
-  layouts: {
-    lg: [],
-    md: [],
-    sm: [],
+// Default widgets to load on startup (inspired by app.godelterminal.com)
+const defaultWidgets: WidgetInstance[] = [
+  {
+    id: 'market-selector-default',
+    type: 'market-selector',
+    title: 'Market Selector',
+    config: {},
   },
+  {
+    id: 'orderbook-default',
+    type: 'orderbook',
+    title: 'Order Book',
+    config: {},
+  },
+  {
+    id: 'quote-default',
+    type: 'quote',
+    title: 'Quote',
+    config: {},
+  },
+];
+
+// Default layout configuration
+const defaultLayouts: WorkspaceLayouts = {
+  lg: [
+    { i: 'market-selector-default', x: 0, y: 0, w: 4, h: 4, minW: 3, minH: 3 },
+    { i: 'orderbook-default', x: 4, y: 0, w: 4, h: 4, minW: 3, minH: 3 },
+    { i: 'quote-default', x: 8, y: 0, w: 4, h: 4, minW: 3, minH: 3 },
+  ],
+  md: [
+    { i: 'market-selector-default', x: 0, y: 0, w: 6, h: 4, minW: 3, minH: 3 },
+    { i: 'orderbook-default', x: 6, y: 0, w: 6, h: 4, minW: 3, minH: 3 },
+    { i: 'quote-default', x: 0, y: 4, w: 6, h: 4, minW: 3, minH: 3 },
+  ],
+  sm: [
+    { i: 'market-selector-default', x: 0, y: 0, w: 12, h: 4, minW: 3, minH: 3 },
+    { i: 'orderbook-default', x: 0, y: 4, w: 12, h: 4, minW: 3, minH: 3 },
+    { i: 'quote-default', x: 0, y: 8, w: 12, h: 4, minW: 3, minH: 3 },
+  ],
+};
+
+// Initial state with default widgets
+const initialState: WorkspaceState = {
+  widgets: defaultWidgets,
+  layouts: defaultLayouts,
   currentTicker: null,
   activeWidgetId: null,
 };
