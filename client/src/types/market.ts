@@ -14,6 +14,7 @@ export interface Market {
   volume: number
   volume_24h: number
   open_interest: number
+  liquidity?: number
   close_time: string | null
   expiration_time: string | null
   result?: 'yes' | 'no' | null

@@ -3,10 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self';
+      script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com;
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+      font-src 'self' https://fonts.gstatic.com;
+      connect-src 'self' http://localhost:3001 ws://localhost:3001 https://api.elections.kalshi.com https://demo-api.kalshi.com;
+      img-src 'self' data: https:;
+    ">
     <title>Kalshi Trading Terminal - Vanilla</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
       * {
         margin: 0;
@@ -16,52 +25,17 @@
 
       body {
         font-family: 'JetBrains Mono', monospace;
-        background: #0a0a0a;
-        color: #e0e0e0;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        gap: 20px;
-      }
-
-      .info {
-        text-align: center;
-        padding: 20px;
-      }
-
-      .info h1 {
-        color: #00d4ff;
-        margin-bottom: 12px;
-      }
-
-      .info p {
-        color: #888;
-        margin: 8px 0;
-      }
-
-      .key-hint {
-        display: inline-block;
-        background: #1a1a1a;
-        border: 1px solid #333;
-        padding: 4px 12px;
-        border-radius: 4px;
-        color: #00d4ff;
-        font-weight: bold;
       }
     </style>
   </head>
   <body>
-    <div class="info">
-      <h1>Kalshi Trading Terminal</h1>
-      <p>Vanilla TypeScript Command Palette Demo</p>
-      <p style="margin-top: 24px;">
-        Press <span class="key-hint">`</span> (backtick) to open the command palette
-      </p>
-      <p style="margin-top: 12px; font-size: 12px;">
-        Open the browser console to see ticker outputs
-      </p>
+    <!-- App container with full viewport height -->
+    <div id="app" class="min-h-screen flex flex-col bg-slate-950">
+      <!-- Header section -->
+      <header id="header"></header>
+
+      <!-- Main content area with grid layout -->
+      <main id="main" class="flex-1 overflow-hidden"></main>
     </div>
 
     <script type="module" src="/src/vanilla-main.ts"></script>

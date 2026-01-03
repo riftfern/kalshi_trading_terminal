@@ -8,6 +8,7 @@ import express from 'express';
 import cors from 'cors';
 import { createServer } from 'http';
 import { KalshiClient } from './api/KalshiClient.js';
+import { transformOrderbook, aggregateOrderbook } from './api/reciprocalTransformer.js';
 import { startTelegramBot } from './telegram.js';
 import { setupWebSocket } from './websocket.js';
 
@@ -63,8 +64,13 @@ app.get('/api/status', async (req, res) => {
 // Get markets
 app.get('/api/markets', async (req, res) => {
   try {
-    const { limit = 200, cursor, status = 'open' } = req.query;
-    const result = await client.getMarkets({ limit: parseInt(limit), cursor, status });
+    const { limit = 200, cursor, status = 'open', series_ticker } = req.query;
+    const result = await client.getMarkets({
+      limit: parseInt(limit),
+      cursor,
+      status,
+      series_ticker
+    });
     res.json(result);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -103,12 +109,17 @@ app.get('/api/markets/:ticker', async (req, res) => {
   }
 });
 
-// Get orderbook
+// Get orderbook (with reciprocal transformation)
 app.get('/api/markets/:ticker/orderbook', async (req, res) => {
   try {
     const { depth = 10 } = req.query;
-    const orderbook = await client.getOrderbook(req.params.ticker, parseInt(depth));
-    res.json(orderbook);
+    const rawOrderbook = await client.getOrderbook(req.params.ticker, parseInt(depth));
+
+    // Transform the orderbook to add missing Ask side using reciprocal logic
+    const transformed = transformOrderbook(rawOrderbook);
+    const aggregated = aggregateOrderbook(transformed, parseInt(depth));
+
+    res.json(aggregated);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

@@ -20,5 +20,9 @@
   "license": "MIT",
   "devDependencies": {
     "concurrently": "^8.2.0"
+  },
+  "dependencies": {
+    "@playwright/test": "^1.57.0",
+    "puppeteer-core": "^24.34.0"
   }
 }
