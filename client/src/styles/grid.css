@@ -1,0 +1,196 @@
+/**
+ * CSS Grid Layout System
+ * Following REFACTOR.md Phase 3 specification
+ */
+
+/* Grid Container - 12 column system */
+.grid-layout {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: 40px; /* ROW_HEIGHT equivalent */
+  gap: 6px; /* MARGIN equivalent */
+  padding: 12px; /* CONTAINER_PADDING equivalent */
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background-color: rgb(2 6 23); /* slate-950 */
+}
+
+/* Widget Container - positioned by x, y, w, h */
+.widget-container {
+  position: relative;
+  background-color: rgb(15 23 42); /* slate-900 */
+  border: 1px solid rgb(51 65 85); /* slate-700 */
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  cursor: grab;
+  transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.widget-container:active {
+  cursor: grabbing;
+}
+
+/* Drag states */
+.widget-container.dragging {
+  opacity: 0.3;
+  transform: scale(0.98);
+  cursor: grabbing;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.widget-container.drag-over {
+  border-color: rgb(34 211 238); /* cyan-400 */
+  box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.3);
+  background-color: rgb(8 51 68); /* darker cyan tint */
+}
+
+/* Placeholder for drop position */
+.grid-placeholder {
+  background-color: rgba(34, 211, 238, 0.2); /* semi-transparent cyan */
+  border: 2px dashed rgb(34, 211, 238); /* cyan-400 */
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 999;
+  transition: all 0.15s ease;
+}
+
+/* Widget Header - for title and drag handle */
+.widget-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background-color: rgb(30 41 59); /* slate-800 */
+  border-bottom: 1px solid rgb(51 65 85); /* slate-700 */
+  cursor: move;
+  user-select: none;
+}
+
+.widget-drag-handle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: rgb(148 163 184); /* slate-400 */
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.widget-drag-icon {
+  width: 16px;
+  height: 16px;
+  opacity: 0.6;
+}
+
+.widget-header:hover .widget-drag-icon {
+  opacity: 1;
+}
+
+/* Widget Actions */
+.widget-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.widget-action-btn {
+  padding: 4px;
+  background: transparent;
+  border: none;
+  color: rgb(148 163 184); /* slate-400 */
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background-color 0.15s;
+}
+
+.widget-action-btn:hover {
+  background-color: rgb(51 65 85); /* slate-700 */
+  color: rgb(226 232 240); /* slate-200 */
+}
+
+/* Widget Content Area */
+.widget-content {
+  flex: 1;
+  overflow: hidden;
+  padding: 12px;
+}
+
+/* Resize Handle */
+.widget-resize-handle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  cursor: se-resize;
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 10;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    transparent 50%,
+    rgba(148, 163, 184, 0.3) 50%,
+    rgba(148, 163, 184, 0.3) 100%
+  );
+}
+
+.widget-container:hover .widget-resize-handle {
+  opacity: 1;
+}
+
+.widget-resize-handle::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 0 10px 10px;
+  border-color: transparent transparent rgb(148 163 184) transparent;
+}
+
+/* Resizing state */
+.widget-container.resizing {
+  opacity: 0.7;
+  z-index: 1000;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1024px) {
+  /* Medium screens - 8 columns */
+  .grid-layout {
+    grid-template-columns: repeat(8, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  /* Small screens - 4 columns */
+  .grid-layout {
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 60px; /* Taller rows for mobile */
+  }
+}
+
+/* Loading State */
+.widget-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(100 116 139); /* slate-500 */
+  font-size: 14px;
+}
+
+/* Error State */
+.widget-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(248 113 113); /* red-400 */
+  font-size: 14px;
+  padding: 20px;
+  text-align: center;
+}

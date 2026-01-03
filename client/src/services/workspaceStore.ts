@@ -178,6 +178,31 @@ export function updateLayout(
 }
 
 /**
+ * Move a widget to a new grid position (per GEMINI.md)
+ * Updates position across all breakpoints
+ */
+export function moveWidget(widgetId: string, newX: number, newY: number): void {
+  const currentState = workspaceStore.getState();
+
+  const updateLayoutBreakpoint = (layout: LayoutItem[]): LayoutItem[] => {
+    return layout.map((item) => {
+      if (item.i === widgetId) {
+        return { ...item, x: newX, y: newY };
+      }
+      return item;
+    });
+  };
+
+  workspaceStore.setState({
+    layouts: {
+      lg: updateLayoutBreakpoint(currentState.layouts.lg),
+      md: updateLayoutBreakpoint(currentState.layouts.md),
+      sm: updateLayoutBreakpoint(currentState.layouts.sm),
+    },
+  });
+}
+
+/**
  * Set the current active ticker (for market-specific widgets)
  */
 export function setCurrentTicker(ticker: string | null): void {

@@ -74,9 +74,33 @@ export abstract class BaseWidget extends BaseComponent<HTMLDivElement> {
       'widget-drag-handle cursor-move',
     ].join(' ');
 
-    // Left side: title and ticker
+    // Make header draggable per GEMINI.md instructions
+    header.draggable = true;
+    header.dataset.widgetId = this.config.id;
+
+    // Drag event handlers
+    header.addEventListener('dragstart', (e: DragEvent) => {
+      if (e.dataTransfer) {
+        e.dataTransfer.setData('text/plain', this.config.id);
+        e.dataTransfer.effectAllowed = 'move';
+      }
+      header.classList.add('is-dragging');
+      // Add visual feedback to parent widget container
+      this.element.classList.add('is-dragging');
+    });
+
+    header.addEventListener('dragend', () => {
+      header.classList.remove('is-dragging');
+      this.element.classList.remove('is-dragging');
+    });
+
+    // Left side: drag icon, title and ticker
     const leftSide = document.createElement('div');
     leftSide.className = 'flex items-center gap-2 min-w-0';
+
+    // Drag icon (gripper)
+    const dragIcon = this.createDragIcon();
+    leftSide.appendChild(dragIcon);
 
     const title = document.createElement('span');
     title.className = 'text-xs font-mono text-slate-400 truncate';
@@ -115,6 +139,25 @@ export abstract class BaseWidget extends BaseComponent<HTMLDivElement> {
     header.appendChild(rightSide);
 
     return header;
+  }
+
+  private createDragIcon(): SVGSVGElement {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('class', 'w-3 h-3 text-slate-500 widget-drag-icon');
+    svg.setAttribute('fill', 'currentColor');
+    svg.setAttribute('viewBox', '0 0 20 20');
+
+    // 6 dots in 2x3 pattern (gripper icon)
+    svg.innerHTML = `
+      <circle cx="6" cy="5" r="1.5"></circle>
+      <circle cx="14" cy="5" r="1.5"></circle>
+      <circle cx="6" cy="10" r="1.5"></circle>
+      <circle cx="14" cy="10" r="1.5"></circle>
+      <circle cx="6" cy="15" r="1.5"></circle>
+      <circle cx="14" cy="15" r="1.5"></circle>
+    `;
+
+    return svg;
   }
 
   private createRefreshButton(): HTMLButtonElement {

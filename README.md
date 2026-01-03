@@ -1,6 +1,6 @@
 # Kalshi Trading Terminal
 
-A Bloomberg-style trading terminal for Kalshi prediction markets. Features a React web interface with terminal aesthetics and Telegram bot integration.
+A Bloomberg-style trading terminal for Kalshi prediction markets. Features a modern web interface currently undergoing refactoring from React to a lightweight, vanilla TypeScript architecture, alongside Telegram bot integration.
 
 ## Features
 
@@ -9,6 +9,12 @@ A Bloomberg-style trading terminal for Kalshi prediction markets. Features a Rea
 - Orderbook visualization
 - Market search and filtering by category/event
 - Telegram bot for mobile access
+
+## Refactoring to Vanilla TypeScript (Ongoing)
+
+This project is actively being refactored from a React-based frontend to a pure Vanilla TypeScript architecture. The goal is to create an extremely lightweight, high-performance, and framework-free client, optimized for low resource usage and maintainability.
+
+The development is guided by principles of native DOM manipulation, event-driven state management, and a component model built from the ground up without external UI libraries.
 
 ## Commands
 
